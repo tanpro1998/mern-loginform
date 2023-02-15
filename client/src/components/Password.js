@@ -5,7 +5,7 @@ import { verifyPassword } from "../helper/helper";
 import { useAuthStore } from "../store/store";
 import { passwordValidate } from "../helper/validate";
 import useFetch from "../hooks/fetch.hook";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import Avatar from "../assets/avatar_2.jpeg";
 
@@ -81,9 +81,9 @@ function Password() {
             <div className="text-center mt-5">
               <span>
                 Forgot Password{" "}
-                <a href="/recovery" className="text-red-400 hover:underline">
+                <Link to={"/recovery"} className="text-red-500 hover:underline">
                   Recover Now
-                </a>
+                </Link>
               </span>
             </div>
           </form>

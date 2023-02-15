@@ -1,8 +1,7 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN
-
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_DOMAIN;
 export async function getUsername() {
   const token = localStorage.getItem("token");
   if (!token) return Promise.reject("Cannot find Token");
@@ -21,7 +20,8 @@ export async function authenticate(username) {
 
 export async function getUser({ username }) {
   try {
-    return await axios.get(`/api/user/${username}`);
+    const { data } = await axios.get(`/api/user/${username}`);
+    return { data };
   } catch (error) {
     return { error: "Password does not match" };
   }
@@ -84,18 +84,17 @@ export async function generateOTP(username) {
       status,
     } = await axios.get("/api/generateOTP", { params: { username } });
 
-    // send mail with OTP
-
+    // send mail with the OTP
     if (status === 201) {
       let {
         data: { email },
       } = await getUser({ username });
-      let text = `Your Password Recovery OTP is ${code}. Verify and recover your password`;
+      let text = `Your Password Recovery OTP is ${code}. Verify and recover your password.`;
       await axios.post("/api/registerMail", {
         username,
         userEmail: email,
         text,
-        subject: "Password REcovery OTP",
+        subject: "Password Recovery OTP",
       });
     }
     return Promise.resolve(code);
@@ -112,14 +111,14 @@ export async function verifyOTP({ username, code }) {
     });
     return { data, status };
   } catch (error) {
-    return Promise.reject({ error });
+    return Promise.reject(error);
   }
 }
 
 /** reset password */
 export async function resetPassword({ username, password }) {
   try {
-    const { data, status } = await axios.get("/api/resetPassword", {
+    const { data, status } = await axios.put("/api/resetPassword", {
       username,
       password,
     });

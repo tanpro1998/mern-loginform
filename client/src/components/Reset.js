@@ -55,7 +55,7 @@ function Reset() {
           <form className="py-20" onSubmit={formik.handleSubmit}>
             <div className="flex flex-col gap-6 items-center">
               <input
-                type="pasword"
+                type="password"
                 placeholder="New Password"
                 className="textbox"
                 {...formik.getFieldProps("password")}
